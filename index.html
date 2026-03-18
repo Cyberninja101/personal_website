@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zenchang Sun</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;1,8..60,400&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text">
+      <h1 class="fade-up">Zenchang Sun</h1>
+      <p class="tagline tagline--big fade-up">Software for systems that <span id="rotating-word">move.</span></p>
+      <p class="tagline fade-up">CS @ Cornell &middot; <span id="typewriter"></span><span class="type-cursor">|</span></p>
+      <div class="hero-links fade-up">
+        <a href="resume.pdf" target="_blank">Resume</a>
+        <a href="https://github.com/Cyberninja101" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/zenchang-sun" target="_blank">LinkedIn</a>
+        <a href="mailto:zs434@cornell.edu">Email</a>
+      </div>
+    </div>
+    <img src="photos/profile.png" alt="Zenchang Sun" class="avatar fade-up" />
+  </section>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <h2 class="section-label">TL;DR</h2>
+    <p>
+      Somehow ended up with a security clearance before I can legally rent a car. Most of my work sits where software meets the physical world — radar systems on Navy ships, wafer-scale chips, and autonomous robots.
+    </p>
+  </section>
+
+  <!-- EXPERIENCE TIMELINE -->
+  <section class="experience" id="experience">
+    <div class="exp-list">
+      <h2 class="section-label">The R&eacute;sum&eacute; Part</h2>
+
+      <div class="exp-row">
+        <img src="logos/aws.png" alt="AWS" class="exp-logo" />
+        <div class="exp-right">
+          <div class="exp-top">
+            <div class="exp-info">
+              <span class="exp-role">Software Engineering Intern</span>
+              <span class="exp-company">Amazon Web Services</span>
+            </div>
+            <span class="exp-date">Summer 2026</span>
+          </div>
+          <p class="exp-desc">Joining the DynamoDB team in Seattle this June.</p>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <img src="logos/cerebras.png" alt="Cerebras" class="exp-logo" />
+        <div class="exp-right">
+          <div class="exp-top">
+            <div class="exp-info">
+              <span class="exp-role">Research Assistant</span>
+              <span class="exp-company">Cornell HPC Lab &times; Cerebras Systems</span>
+            </div>
+            <span class="exp-date">Jan 2026 &ndash; Present</span>
+          </div>
+          <p class="exp-desc">Sparse LA and graph kernels on the Cerebras WSE-3, advised by Prof. Giulia Guidi.</p>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <img src="logos/apl.png" alt="APL" class="exp-logo" />
+        <div class="exp-right">
+          <div class="exp-top">
+            <div class="exp-info">
+              <span class="exp-role">Machine Learning Intern</span>
+              <span class="exp-company">Johns Hopkins Applied Physics Lab</span>
+            </div>
+            <span class="exp-date">Summer 2025</span>
+          </div>
+          <p class="exp-desc">ML for radar target tracking on next-gen Navy ships. Both projects classified.</p>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <img src="logos/mars-rover.png" alt="Cornell Mars Rover" class="exp-logo" />
+        <div class="exp-right">
+          <div class="exp-top">
+            <div class="exp-info">
+              <span class="exp-role">Software Lead, Autonomy</span>
+              <span class="exp-company">Cornell Mars Rover</span>
+            </div>
+            <span class="exp-date">Oct 2024 &ndash; Present</span>
+          </div>
+          <p class="exp-desc">Led 8-person team building a ROS 2 GPS + camera autonomy stack for desert navigation.</p>
+        </div>
+      </div>
+
+      <div class="exp-row">
+        <img src="logos/cornell.png" alt="Cornell" class="exp-logo" />
+        <div class="exp-right">
+          <div class="exp-top">
+            <div class="exp-info">
+              <span class="exp-role">BS Computer Science, Robotics Minor</span>
+              <span class="exp-company">Cornell University</span>
+            </div>
+            <span class="exp-date">Aug 2024 &ndash; Present</span>
+          </div>
+          <p class="exp-desc">Parallel Computing (Grad) &middot; Algorithms &middot; Systems &middot; ML &middot; Functional Programming</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="projects" id="projects">
+    <h2 class="section-label">Shipped</h2>
+    <div class="proj-feed" id="proj-feed"></div>
+  </section>
+
+  <!-- OUTSIDE OF WORK -->
+  <section class="outside" id="outside">
+    <h2 class="section-label">Not a Robot</h2>
+    <p class="outside-blurb">Outside of engineering I play guitar, drink boba, run, lift, and occasionally disappear into mountains.</p>
+    <div class="outside-grid">
+      <div class="outside-item">
+        <img src="photos/couch.png" alt="Couch with friends" />
+        <span>Couch, with friends</span>
+      </div>
+      <div class="outside-item">
+        <img src="photos/alps.png" alt="Backpacking in the Alps" />
+        <span>Backpacking in Alps, Switzerland</span>
+      </div>
+      <div class="outside-item">
+        <img src="photos/guitar.png" alt="80 East Band - Guitar" />
+        <span>80 East Band, Guitar</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-meta">
+        <span>zs434@cornell.edu</span>
+        <span class="footer-dot">·</span>
+        <span>917-780-6485</span>
+        <span class="footer-dot">·</span>
+        <span>New York City</span>
+        <span class="footer-dot">·</span>
+        <span>US Citizen</span>
+      </div>
+      <span class="footer-joke">"Built with HTML, CSS, and mild sleep deprivation."</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
