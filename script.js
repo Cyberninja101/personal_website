@@ -3,7 +3,7 @@ const projects = [
     num: '01',
     tag: 'Robotics · Leadership',
     name: 'Mars Rover Autonomy',
-    desc: 'Led 8-person subteam building a ROS 2 autonomy stack with GPS + vision for competitive desert navigation.',
+    desc: 'Led 8-person subteam building a ROS 2 autonomy stack with GPS + vision for autonomous desert navigation at the University Rover Competition.',
     stack: ['ROS 2', 'OpenCV', 'C++', 'Python'],
     link: 'https://youtu.be/rAKKBc-94Zk?t=146',
     image: 'photos/project-rover.png',
@@ -34,7 +34,7 @@ const projects = [
     num: '04',
     tag: 'SWE · Defense',
     name: 'Missile Defense Chatbot',
-    desc: 'LLM assistant for Air & Missile Defense — fine-tuned LLaMA-7B with RAG over doctrine documents.',
+    desc: 'LLM assistant for APL Air & Missile Defense Sector — fine-tuned LLaMA-7B with RAG over doctrine documents.',
     stack: ['Flask', 'LLaMA-7B', 'RAG'],
     link: 'https://github.com/Cyberninja101/FalconAI',
     image: 'photos/chatbot.png',
@@ -43,12 +43,12 @@ const projects = [
   },
   {
     num: '05',
-    tag: 'Hackathon · 1st Place',
-    name: 'GroovyAR',
+    tag: 'Hackathon · 24 Hours',
+    name: 'GroovyAR (1st Place)',
     desc: 'Built a real-time AR rhythm coach/game that turns any MP3 into playable drum cues. 1st place overall — Cornell × ASML hackathon.',
     stack: ['Raspberry Pi', 'Flask', 'React', 'OpenCV'],
     link: 'https://github.com/Cyberninja101/Groovy',
-    image: 'photos/project-groovyar.png',
+    image: 'photos/groovy.png',
     classified: false,
   },
   {
@@ -97,24 +97,88 @@ function renderFeed() {
   }).join('');
 }
 
-// ── Observers ──────────────────────────────────────────────────
-function initObservers() {
+// ── Scroll dots ────────────────────────────────────────────────
+function initDots() {
+  const feed  = document.getElementById('proj-feed');
   const cards = document.querySelectorAll('.proj-card');
+  const wrap  = document.createElement('div');
+  wrap.className = 'proj-dots';
 
-  // One-directional card fade-in (never fades out once visible)
-  const cardObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
+  projects.forEach((_, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'proj-dot';
+    btn.setAttribute('aria-label', `Go to project ${i + 1}`);
+    btn.addEventListener('click', () => {
+      cards[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
-  }, { threshold: 0.25 });
+    wrap.appendChild(btn);
+  });
 
-  cards.forEach(card => cardObserver.observe(card));
+  feed.appendChild(wrap);
+}
+
+// ── Scroll tracking — recomputes state fresh on every scroll tick ──
+function initScrollTracking() {
+  const feed    = document.getElementById('proj-feed');
+  const cards   = document.querySelectorAll('.proj-card');
+  const outside = document.querySelector('.outside');
+  const getDots = () => document.querySelectorAll('.proj-dot');
+
+  let rafId  = null;
+  let lastActiveIdx = -1;
+  let hasPassedFirstCard = false;
+
+  function update() {
+    const vh         = window.innerHeight;
+    const firstRect  = cards[0].getBoundingClientRect();
+    const outsideRect = outside.getBoundingClientRect();
+
+    // Remember once first card has scrolled fully above viewport
+    if (firstRect.bottom < 0) hasPassedFirstCard = true;
+    if (firstRect.top > vh)   hasPassedFirstCard = false; // jumped back above
+
+    // Active card: ≥60% visible within center 64% of viewport
+    const margin = vh * 0.18;
+    let activeIdx = -1;
+    cards.forEach((card, i) => {
+      const r = card.getBoundingClientRect();
+      const visible = Math.max(0, Math.min(r.bottom, vh - margin) - Math.max(r.top, margin));
+      if (visible / r.height >= 0.6) activeIdx = i;
+    });
+
+    // Appear when first card's top is in upper 40% of viewport (card roughly centered)
+    const scrolledIntoFeed = firstRect.top < vh * 0.4;
+
+    // Leave on scroll up: hide only when first card is almost fully back in view
+    const backAtStart  = hasPassedFirstCard && firstRect.bottom > vh * 0.92;
+
+    // Disappear at bottom: when outside section top reaches 70% down viewport
+    const pastOutside  = outsideRect.top < vh * 0.7;
+
+    const showDots = activeIdx >= 0 && scrolledIntoFeed && !backAtStart && !pastOutside;
+
+    feed.classList.toggle('has-active', showDots);
+
+    // Only update DOM when something changed
+    const effectiveIdx = showDots ? activeIdx : -1;
+    if (effectiveIdx !== lastActiveIdx) {
+      cards.forEach((c, i) => c.classList.toggle('card--active', i === effectiveIdx));
+      getDots().forEach((d, i) => d.classList.toggle('proj-dot--active', i === effectiveIdx));
+      lastActiveIdx = effectiveIdx;
+    }
+  }
+
+  window.addEventListener('scroll', () => {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(update);
+  }, { passive: true });
+
+  update(); // initial state on load
 }
 
 renderFeed();
-initObservers();
+initDots();
+initScrollTracking();
 
 // ── Rotating tagline — typewriter ─────────────────────────────
 (function () {

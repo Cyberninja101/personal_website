@@ -13,12 +13,9 @@
   --accent:       #2563eb;
   --accent-light: #e8eefb;
   --border:       #e2e4ea;
-  --card-hover:   #eef0f5;
-
   --max-w:        680px;
   --font-sans:    'Geist', system-ui, sans-serif;
   --font-serif:   'Source Serif 4', Georgia, serif;
-  --font:         var(--font-sans);
 }
 
 /* ─── Base ───────────────────────────────────────────────────── */
@@ -56,42 +53,6 @@ img {
   max-width: 100%;
 }
 
-/* ─── Nav ────────────────────────────────────────────────────── */
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.1rem 2rem;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: rgba(247, 248, 252, 0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  z-index: 100;
-}
-
-.nav-name {
-  font-weight: 600;
-  font-size: 0.85rem;
-  letter-spacing: 0.08em;
-}
-
-.nav-links {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.nav-links a {
-  color: var(--muted);
-  font-size: 0.85rem;
-  transition: color 0.15s;
-}
-
-.nav-links a:hover {
-  color: var(--text);
-}
-
 /* ─── Fade-up animation ──────────────────────────────────────── */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(14px); }
@@ -121,21 +82,19 @@ nav {
   gap: 2rem;
 }
 
-
 .hero-text {
   flex: 1;
   min-width: 0;
 }
 
 .avatar {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
+  width: 168px;
+  height: 168px;
+  border-radius: 10px;
   object-fit: cover;
   flex-shrink: 0;
-  filter: none;
   background: var(--border);
-  margin-top: 0.6rem;
+  margin-top: 0.3rem;
 }
 
 .hero h1 {
@@ -169,18 +128,6 @@ nav {
 
 .tagline:last-of-type {
   margin-bottom: 1.1rem;
-}
-
-.affiliations {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  margin-bottom: 1.75rem;
-}
-
-.affiliations span {
-  font-size: 0.875rem;
-  color: var(--text);
 }
 
 .hero-links {
@@ -264,7 +211,6 @@ nav {
   align-items: flex-start;
   gap: 0.85rem;
   padding: 0.85rem 0;
-  border-bottom: none;
   position: relative;
 }
 
@@ -403,6 +349,7 @@ nav {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  position: relative;
 }
 
 .proj-card {
@@ -410,20 +357,67 @@ nav {
   border-radius: 8px;
   overflow: hidden;
   background: #fff;
+  transition:
+    transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    opacity 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease;
+}
+
+/* Active card — centered in viewport */
+.proj-card.card--active {
+  transform: scale(1.022);
+  box-shadow: 0 20px 52px rgba(0,0,0,0.10), 0 2px 10px rgba(0,0,0,0.05);
+  border-color: rgba(37,99,235,0.18);
+}
+
+/* Non-active cards dim once scrolling begins */
+.proj-feed.has-active .proj-card:not(.card--active) {
+  opacity: 0.68;
+  transform: scale(0.988);
+}
+
+
+/* ─── Scroll progress dots (fixed, tracks alongside content) ─── */
+.proj-dots {
+  position: fixed;
+  right: calc(50vw - 370px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
   opacity: 0;
-  translate: 0 22px;
-  transition: opacity 0.45s ease, translate 0.45s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
 }
 
-.proj-card.visible {
+/* Show when first card has been focused */
+.proj-feed.has-active .proj-dots {
   opacity: 1;
-  translate: 0 0;
+  pointer-events: all;
 }
 
-.proj-card.visible:hover {
-  translate: 0 -3px;
-  box-shadow: 0 8px 28px rgba(37,99,235,0.1), 0 2px 8px rgba(0,0,0,0.06);
-  border-color: rgba(37,99,235,0.2);
+@media (max-width: 760px) {
+  .proj-dots { display: none; }
+}
+
+.proj-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--border);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.proj-dot.proj-dot--active {
+  background: var(--accent);
+  transform: scale(1.5);
 }
 
 .proj-card-img-link {
@@ -543,6 +537,12 @@ nav {
   color: rgba(26,26,24,0.045);
   pointer-events: none;
   user-select: none;
+  transition: color 0.5s ease;
+}
+
+/* Watermark brightens when card is in focus */
+.proj-card.card--active .proj-card-body::before {
+  color: rgba(26,26,24,0.09);
 }
 
 .proj-card-tag {
@@ -649,7 +649,6 @@ nav {
   font-size: 1.18rem;
   color: var(--text);
   line-height: 1.8;
-  max-width: 540px;
 }
 
 /* ─── Outside ────────────────────────────────────────────────── */
@@ -696,7 +695,6 @@ nav {
   aspect-ratio: 4 / 3;
   object-fit: cover;
   border-radius: 5px;
-  filter: none;
   background: var(--border);
   min-height: 80px;
 }
@@ -751,8 +749,9 @@ footer {
   }
 
   .avatar {
-    width: 56px;
-    height: 56px;
+    width: 96px;
+    height: 96px;
+    border-radius: 8px;
   }
 
   .outside-grid {
@@ -772,10 +771,6 @@ footer {
   .outside {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
-  }
-
-  nav {
-    padding: 1rem 1.25rem;
   }
 
   .footer-meta {
